@@ -30,3 +30,6 @@ $ npm start
 #public폴더
 -이미지,파비콘 등 정적인 부분
 -index.html  (SPA)하나의 html페이지로 처리
+
+#플러그인 
+react ES7 설치 (마켓)
