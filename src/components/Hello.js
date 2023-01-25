@@ -21,7 +21,7 @@ const Hello = () => {
     //nickName='척척박사'; (x)
     setNickName('척척박사'); //(o)
   };
-
+  
   console.log('Hello nickName:'+nickName);
 
   return (
