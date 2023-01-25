@@ -15,7 +15,7 @@ const TodoTemplate = () => {
         <TodoInput/>
 
     </div>
-  )
-}
+  );
+};
 
 export default TodoTemplate
