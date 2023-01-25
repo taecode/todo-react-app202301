@@ -34,4 +34,5 @@ $ npm start
 #플러그인 
 react ES7 설치 (마켓)
 
-5.
+5.추가 라이브러리 
+$npm install react-icons classnames

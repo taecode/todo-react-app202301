@@ -25,7 +25,6 @@
     cursor: pointer; /*마우스 올리면 손 모양*/
 
     
-
 }
 
 .todo-item .text{
@@ -38,12 +37,21 @@
 
 .todo-item .remove{
     font-size: 28px;
-    color: #f51b4f;
+    color: #ccc;
     cursor: pointer;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
+    display: none;
     
+}
+
+.todo-item:hover .remove{
+    display: block;
+}
+
+.todo-item .remove:hover{
+    color: #f51b4f;
 }
