@@ -1,15 +1,13 @@
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 
-import Greeting from './components/Greeting';
-import FoodList from './components/FoodList';
-import Hello from './components/Hello';
+import TodoTemplate from './components/todo/TodoTemplate';
 
 
 function App() {
   return (
     <>
-      <Hello/>
+      <TodoTemplate/>
     </>
   );
 }
