@@ -1,13 +1,13 @@
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 
-import ItemMain from './components/item/ItemMain';
+import TodoTemplate from './components/todo/TodoTemplate';
 
 
 function App() {
   return (
     <>
-      <ItemMain/>
+      <TodoTemplate/>
     </>
   );
 }
