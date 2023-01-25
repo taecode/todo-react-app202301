@@ -2,7 +2,7 @@ import React from 'react'
 import TodoItem from './TodoItem';
 import './css/TodoMain.css';
 
-const TodoMain = ({todoList,remove}) => {
+const TodoMain = ({todoList,remove,update}) => {
 
 
   return (
@@ -13,6 +13,7 @@ const TodoMain = ({todoList,remove}) => {
             key={todo.id} 
             todo={todo}
             remove={remove}
+            update={update}
             />)
         }
     </ul>

@@ -39,6 +39,20 @@ const TodoTemplate = () => {
       });
     };
 
+    //할 일 수정 요청 처리
+    const updateTodo = todo => {
+
+        fetch(`${API_BASE_URL}/${todo.id}`,{
+            method:'PUT',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(todo)
+        })
+        .then(res=>res.json())
+        .then(result=>{
+            setTodos(result.todos);
+        });
+    };
+
 
     //렌더링 되자마자 할 일 => todos api GET 목록 호출 
     useEffect(()=>{
@@ -49,6 +63,8 @@ const TodoTemplate = () => {
                 setTodos(result.todos);
             });
     },[]);
+
+
     
 
   return (
@@ -56,7 +72,7 @@ const TodoTemplate = () => {
 
         {/* 헤더,메인 둘다 배열 정보 알아야함 */}
         <TodoHeader todoList={todos}/>  
-        <TodoMain todoList={todos} remove={deleteTodo}/>
+        <TodoMain todoList={todos} remove={deleteTodo} update={updateTodo}/>
         <TodoInput add={addTodo}/>
         {/* 자식한테 addTodo함수를 보냄  */}
 

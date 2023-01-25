@@ -5,7 +5,7 @@ import {MdDone,MdDelete} from 'react-icons/md';
 import './css/TodoItem.css';
 import cn from 'classnames';
 
-const TodoItem = ({todo,remove}) => {
+const TodoItem = ({todo,remove,update}) => {
 
 
   const{id,title,done}=todo;
@@ -15,10 +15,24 @@ const TodoItem = ({todo,remove}) => {
         remove(id);
   };
 
+  //할 일 완료 수정 처리 이벤트 핸들러
+  const doneCheckHandler = e => {
+    //서버쪽으로 현재 done값의 반대 논리값을 전달하여 수정
+        const modTodo={
+            ...todo,
+            done:!done
+        };
+
+    //id, title, done다 TodoTemplate에게 전달
+        update(modTodo);
+  };
 
   return (
     <li className='todo-item'>
-        <div className={cn('check-circle',{active: done})}>  
+        <div 
+            className={cn('check-circle',{active: done})}
+            onClick={doneCheckHandler}
+        >  
             {done && <MdDone/>}
         </div>
         <span className={cn('text',{finish: done})}>{title}</span>
