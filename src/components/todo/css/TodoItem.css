@@ -27,12 +27,22 @@
     
 }
 
+.todo-item .check-circle.active{
+    border-color: #38d9a9;
+    color: #38d9a9;
+}
+
 .todo-item .text{
     font-size: 21px;
     color: #495057;
 
     flex: 1;
 
+}
+
+.todo-item .text.finish{
+    color: #919396;
+    text-decoration: line-through;
 }
 
 .todo-item .remove{

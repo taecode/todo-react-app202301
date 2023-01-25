@@ -35,7 +35,8 @@ const TodoTemplate = () => {
   return (
     <div className='todo-template'>
 
-        <TodoHeader/>
+        {/* 헤더,메인 둘다 배열 정보 알아야함 */}
+        <TodoHeader todoList={todos}/>  
         <TodoMain todoList={todos}/>
         <TodoInput/>
 
