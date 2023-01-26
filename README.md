@@ -36,3 +36,11 @@ react ES7 설치 (마켓)
 
 5.추가 라이브러리 
 $npm install react-icons classnames
+
+
+npm install reactstrap react react-dom  
+npm install --save bootstrap
+
+npm install @mui/material @emotion/react @emotion/styled
+npm install @mui/icons-material
+npm install react-router-dom
