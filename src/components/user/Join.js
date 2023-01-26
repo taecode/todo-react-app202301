@@ -10,15 +10,26 @@ const Join = () => {
     const [message, setMessage] = useState({
         username: '',
         password: '',
-        email: ''
+        email: '',
+        passwordCheck:''
      });  
   
      // 검증 완료 여부
      const [validate, setValidate] = useState({
         username: false,
         password: false,
-        email: false
+        email: false,
+        passwordCheck:false
      });
+
+     //입력값 저장
+     const[userValue,setUserValue]=useState({
+        userName:'',
+        password:'',
+        email:''
+     });
+
+     
 
   //유저 이름 입력란 검증 체인지 이벤트 핸들러
   const nameHandler=e=>{
@@ -51,8 +62,14 @@ const Join = () => {
         ...message,
         username:msg
     });
+    setUserValue({
+        ...userValue,
+        userName: e.target.value
+    });
+
   }  
 
+  //이메일 중복확인 요청 함수
   const checkEmail=email=>{
     fetch(`${API_BASE_URL}/check?email=${email}`)
         .then(res=>res.json())
@@ -95,7 +112,12 @@ const Join = () => {
         checkEmail(e.target.value); //중복확인 
     }
     setMessage({...message, email: msg});
-    };
+    setUserValue({
+        ...userValue,
+        email: e.target.value
+    });
+
+};
 
 
   //비밀번호 입력란 검증 체인지 이벤트 핸들러
@@ -129,12 +151,93 @@ const Join = () => {
         ...message,
         password:msg
     });
+    setUserValue({
+        ...userValue,
+        password: e.target.value
+    });
+
+
+  };
+
+  //비밀번호 재입력 검증 
+  const passwordCheckHandler=e=>{
+
+    let msg;
+    if(!e.target.value){
+        msg='비밀번호 확인란은 필수값입니다.';
+        setValidate({
+            ...validate,
+            passwordCheck:false
+        });
+    }
+    else if(e.target.value!==userValue.password){
+        msg='비밀번호가 일치하지 않습니다.';
+        setValidate({
+            ...validate,
+            passwordCheck:false
+        });
+    }else{
+        msg='비밀번호가 일치합니다.';
+        setValidate({
+            ...validate,
+            passwordCheck:true
+        });
+    }
+        setMessage({
+            ...message,
+            passwordCheck:msg
+        });
+        
+    
+  };
+
+
+  //validate객체 안의 모든 논리값이 true인지 검사하는 함수
+  const isValid=()=>{
+
+    //of: 배열 반복, in: 객체 반복
+    //객체에서 key값만 뽑아줌 'username'
+    for(let key in validate){
+        let value=validate[key];
+        if(!value) return false;
+    } //validate를 다 돌았는데 false를 안만났으면 true반환 하나라도 만나면 false반환
+    return true;
+
+  };
+
+  //회원가입 요청 서버로 보내기
+  const submitHandler=e=>{
+    e.preventDefault();
+
+    //입력값 검증을 올바르게 수행했는지 검사
+    if(isValid()){
+        alert('회원가입 이제 보낼게~');
+
+        fetch(`${API_BASE_URL}/signup`,{
+            method:'POST',
+            headers:{
+                'content-type':'application/json'
+            },
+            body:JSON.stringify(userValue)
+        })
+        .then(res=>{
+            if(res.status===200){
+                alert('회원가입을 축하합니다.');
+            }else{
+                alert('회원가입에 실패했습니다. 잠시 후 다시 시도하세요.');
+            }
+        });
+
+    }
+    else{
+        alert('입력창 다시 확인하세요!');
+    }
 
   };
 
   return (
     <Container component="main" maxWidth="xs" style={{ margin: "300px auto" }}>
-            <form noValidate>
+            <form noValidate onSubmit={submitHandler}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Typography component="h1" variant="h5">
@@ -198,6 +301,26 @@ const Join = () => {
                             ?{color:'green'}
                             :{color:'red'}
                         }>{message.password}</span>
+                        
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            name="password-check"
+                            label="패스워드 확인"
+                            type="password"
+                            id="password-check"
+                            autoComplete="check-password"
+                            onChange={passwordCheckHandler}
+                        />
+
+                        <span style={
+                            validate.passwordCheck
+                            ?{color:'green'}
+                            :{color:'red'}
+                        }>{message.passwordCheck}</span>
                         
                     </Grid>
                     <Grid item xs={12}>
