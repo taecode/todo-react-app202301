@@ -23,3 +23,21 @@
     flex-direction: column;
 
 }
+
+/*로딩중 style*/
+.loading{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    
+}
+.loading .spinner-border{
+    
+    width: 100px;
+    height: 100px;
+    --bs-spinner-border-width:0.5rem;
+}
+.loading .text-danger{
+    color: rgb(54, 161, 165) !important;
+}
