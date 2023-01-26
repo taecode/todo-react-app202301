@@ -1,13 +1,24 @@
 import React, { useState } from 'react'
 import {Button, Container, Grid, TextField, Typography, Link} from "@mui/material";
+import { BASE_URL,USER } from '../../config/host-config';
 
 const Join = () => {
 
-    //검증 메시지 저장
-    const [message,setMessage]=useState('');
+    const API_BASE_URL=BASE_URL+USER;
 
-    //검증 완료 여부
-    const [validate,setValidate]=useState(false);
+    //검증 메시지 저장
+    const [message, setMessage] = useState({
+        username: '',
+        password: '',
+        email: ''
+     });  
+  
+     // 검증 완료 여부
+     const [validate, setValidate] = useState({
+        username: false,
+        password: false,
+        email: false
+     });
 
   //유저 이름 입력란 검증 체인지 이벤트 핸들러
   const nameHandler=e=>{
@@ -16,19 +27,110 @@ const Join = () => {
     const nameRegex = /^[가-힣]{2,5}$/; //한글 , 2~5자리 정규 표현식
 
     //검증 시작
-    let message;
+    let msg;
     if(!e.target.value){ //빈문자열 유저이름 안적은 경우 
-        message="유저 이름은 필수값입니다!";
-        setValidate(false);
+        msg="유저 이름은 필수값입니다!";
+        setValidate({
+            ...validate,
+            username:false
+        });
     }else if(!nameRegex.test(e.target.value)){
-        message='2~5글자 사이의 한글로만 작성해주세요!';
-        setValidate(false);
+        msg='2~5글자 사이의 한글로만 작성해주세요!';
+        setValidate({
+            ...validate,
+            username:false
+        });
     }else{
-        message='사용가능한 이름입니다.';
-        setValidate(true);
+        msg='사용가능한 이름입니다.';
+        setValidate({
+            ...validate,
+            username:true
+        });
     }
-    setMessage(message);
+    setMessage({
+        ...message,
+        username:msg
+    });
   }  
+
+  const checkEmail=email=>{
+    fetch(`${API_BASE_URL}/check?email=${email}`)
+        .then(res=>res.json())
+        .then(flag=>{
+            //console.log(flag);
+            let msg;
+            if(flag){
+                msg='중복된 이메일입니다.';
+                setValidate({
+                    ...validate,
+                    email:false
+                 });
+            }else{
+                msg='사용 가능한 이메일입니다.';
+                setValidate({
+                    ...validate,
+                    email:true
+                });
+            }
+            setMessage({
+                ...message,
+                email:msg
+            });
+        });
+  };
+
+
+  // 이메일 입력 검증
+  const emailHandler = (e) => {
+    const emailRegex = /^[a-z0-9\.\-_]+@([a-z0-9\-]+\.)+[a-z]{2,6}$/;
+
+    let msg;
+    if (!e.target.value) {
+        msg = '이메일은 필수값입니다!';
+        setValidate({...validate, email: false});
+    } else if (!emailRegex.test(e.target.value)) {
+        msg = '이메일 형식이 아닙니다!';
+        setValidate({...validate, email: false});
+    } else {
+        checkEmail(e.target.value); //중복확인 
+    }
+    setMessage({...message, email: msg});
+    };
+
+
+  //비밀번호 입력란 검증 체인지 이벤트 핸들러
+  const passwordHandler=e=>{
+
+
+    const pwRegex =  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
+    //영문 숫자 특수문자 포함된 8자리 이상
+
+    let msg;
+    if(!e.target.value){ //패스워드 안적은 경우
+        msg="비밀번호는 필수값입니다!";
+        setValidate({
+            ...validate,
+            password:false
+        });
+    }else if(!pwRegex.test(e.target.value)){ //조건에 맞지 않는 경우
+        msg='8글자 이상의 영문,숫자,특수문자를 포함해주세요!';
+        setValidate({
+            ...validate,
+            password:false
+        });
+    }else{
+        msg='사용 가능한 비밀번호입니다.';
+        setValidate({
+            ...validate,
+            password:true
+        });
+    }
+    setMessage({
+        ...message,
+        password:msg
+    });
+
+  };
 
   return (
     <Container component="main" maxWidth="xs" style={{ margin: "300px auto" }}>
@@ -53,10 +155,10 @@ const Join = () => {
                         />
 
                         <span style={
-                            validate
+                            validate.username
                             ?{color:'green'}
                             :{color:'red'}
-                        }>{message}</span>
+                        }>{message.username}</span>
                         
                     </Grid>
                     <Grid item xs={12}>
@@ -68,8 +170,14 @@ const Join = () => {
                             label="이메일 주소"
                             name="email"
                             autoComplete="email"
-                            
+                            onChange={emailHandler}
                         />
+
+                        <span style={
+                            validate.email
+                            ?{color:'green'}
+                            :{color:'red'}
+                        }>{message.email}</span>
                         
                     </Grid>
                     <Grid item xs={12}>
@@ -82,8 +190,14 @@ const Join = () => {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            
+                            onChange={passwordHandler}
                         />
+
+                        <span style={
+                            validate.password
+                            ?{color:'green'}
+                            :{color:'red'}
+                        }>{message.password}</span>
                         
                     </Grid>
                     <Grid item xs={12}>

@@ -6,11 +6,13 @@ import './css/TodoTemplate.css';
 import TodoHeader from './TodoHeader';
 import TodoInput from './TodoInput';
 import TodoMain from './TodoMain';
+import { BASE_URL,TODO } from '../../config/host-config';
+
 
 const TodoTemplate = () => {
 
+    const API_BASE_URL=BASE_URL+TODO;
 
-    const API_BASE_URL='http://localhost:8080/api/todos';
     //할일 api 데이터 
     //서버에서 불러와
     const [todos,setTodos]=useState([]);
