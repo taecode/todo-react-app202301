@@ -8,10 +8,13 @@ import TodoInput from './TodoInput';
 import TodoMain from './TodoMain';
 import { BASE_URL,TODO } from '../../config/host-config';
 
+import { getToken } from '../util/login-util';
+
 
 const TodoTemplate = () => {
 
     const API_BASE_URL=BASE_URL+TODO;
+    const ACCESS_TOKEN=getToken();
 
     //할일 api 데이터 
     //서버에서 불러와
@@ -20,11 +23,16 @@ const TodoTemplate = () => {
     //로딩중 상태
     const[loading, setLoading]=useState(true);
 
+    const headerInfo={
+      'content-type': 'application/json' 
+       ,'Authorization': 'Bearer ' + ACCESS_TOKEN
+    };
+
     //할 일 등록 서버 요청
     const addTodo=(todo)=>{
         fetch(API_BASE_URL,{
             method: 'POST',
-            headers: { 'content-type': 'application/json' },
+            headers: headerInfo,
             body: JSON.stringify(todo)
         })
         .then(res=>res.json())
@@ -37,7 +45,8 @@ const TodoTemplate = () => {
     const deleteTodo=(id)=>{
 
       fetch(`${API_BASE_URL}/${id}`,{
-        method:'DELETE'
+        method:'DELETE',
+        headers:headerInfo
       })  
       .then(res=>res.json())
       .then(result=>{
@@ -50,7 +59,7 @@ const TodoTemplate = () => {
 
         fetch(`${API_BASE_URL}/${todo.id}`,{
             method:'PUT',
-            headers: { 'content-type': 'application/json' },
+            headers: headerInfo,
             body: JSON.stringify(todo)
         })
         .then(res=>res.json())
@@ -63,7 +72,10 @@ const TodoTemplate = () => {
     //렌더링 되자마자 할 일 => todos api GET 목록 호출 
     useEffect(()=>{
 
-        fetch(API_BASE_URL)
+        fetch(API_BASE_URL,{
+          method: 'GET',
+          headers:headerInfo
+        })
             .then(res=>{
               //console.log(res);
               if(res.status===403){
