@@ -1,6 +1,7 @@
 import React from 'react'
 import {AppBar, Toolbar, Grid, Typography, Button} from "@mui/material";
-
+import { Link } from 'react-router-dom';
+import './Header.css';
 const Header = () => {
   return (
     <AppBar position="fixed" style={{
@@ -20,8 +21,10 @@ const Header = () => {
                     </div>
                 </Grid>
                 <Grid item>
-
-                    
+                    <div className='btn-group'>
+                        <Link to='/login'>로그인</Link>
+                        <Link to='/join'>회원가입</Link>
+                    </div>
                 </Grid>
             </Grid>
         </Toolbar>

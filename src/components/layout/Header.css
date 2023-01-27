@@ -1,0 +1,15 @@
+
+.btn-group{
+    font-size: 24px;
+}
+
+.btn-group a{
+    color: #fff;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+.btn-group a:hover{
+    color: rgb(196, 191, 191);
+    font-weight: 700;
+}
