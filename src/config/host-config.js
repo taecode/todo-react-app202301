@@ -7,8 +7,8 @@ let backendHost; //백엔드 호스트 이름
 
 if(hostname==='localhost'){  //local테스트 할 경우
     backendHost="http://localhost:8080";
-}else if(hostname==='lalala.com'){ //배포하는 경우
-    backendHost='http://rururu.com';
+}else if(hostname==='practice-s3-kgt-bucket001.s3-website.ap-northeast-2.amazonaws.com'){ //배포하는 경우
+    backendHost='http://13.124.192.219';
 }
 
 
